@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import '/models/TimeEntryVM.dart';
-import '/widgets/AddProjectDialogWidget.dart';
-import '/LocalStorage.dart';
-import '/widgets/ProjectandTasksTabBar.dart';
+import '/services/LocalStorage.dart';
 
 class ProjectManagementPage extends StatefulWidget {
   const ProjectManagementPage({super.key});

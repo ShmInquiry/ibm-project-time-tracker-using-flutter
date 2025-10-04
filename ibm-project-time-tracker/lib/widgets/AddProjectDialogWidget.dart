@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '/models/TimeEntryVM.dart';
-import '/LocalStorage.dart';
+import '/services/TimeEntryProvider.dart';
+import '/models/ProjectVM.dart';
+import '/services/LocalStorage.dart';
 
 class AddTimeEntryScreen extends StatefulWidget {
   const AddTimeEntryScreen({super.key});
