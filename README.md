@@ -1,19 +1,43 @@
-# Hello World
+# Time Tracker App 📊⏰
 
-A new Flutter project created with FlutLab - https://flutlab.io
+Welcome to the **Time Tracker App**! This app is designed to help you efficiently manage your time entries, projects, and tasks. Below, you'll find an overview of the features and functionalities included in the application.
 
-## Getting Started
+---
 
-A few resources to get you started if this is your first Flutter project:
+## Features 🔍
 
-- https://flutter.dev/docs/get-started/codelab
-- https://flutter.dev/docs/cookbook
+### Home Screen 🏠
+- **Projects Tab**: Displays a list of projects and related time entries.
+- **Empty State Message**: When the app is first launched and there are no time entries, an informative empty state message will guide users on how to get started.
+- **Time Entries List**: Once time entries are added, they will be displayed in a user-friendly format.
 
-For help getting started with Flutter, view our
-https://flutter.dev/docs, which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Adding Time Entries ➕
+- **Add Time Entry Form**: Users can fill out the following fields:
+  - **Total Time** ⏱️
+  - **Project Name** 📁
+  - **Task Name** 📝
+  - **Notes** 💬
+  - **Date** 📅
+  
+- **Project and Task Dropdowns**: Easy selection dropdowns to choose projects and tasks when adding a new time entry.
 
-## Getting Started: FlutLab - Flutter Online IDE
+### Project Management 📋
+- **Project List Page**: Displays a list of all projects with an option to add a new project using a floating (+) button.
+- **Add Project Dialog**: Simple interface for adding new projects.
 
-- How to use FlutLab? Please, view our https://flutlab.io/docs
-- Join the discussion and conversation on https://flutlab.io/residents
+### Task Management 📌
+- **Task List Page**: Shows a list of tasks with an option to add a new task.
+- **Add Task Dialog**: User-friendly dialog for adding new tasks to the list.
+
+### Storage Management 💾
+- **Local Storage**: 
+  - Displays an empty list of time entries when no entries are present.
+  - Shows available entries once they have been added.
+
+### Deleting Entries 🗑️
+- **Swipe-to-Delete Action**: Effortlessly remove time entries with a simple swipe.
+- **Recycle Bin Delete Button**: An alternative option to delete entries via a dedicated button.
+
+---
+
+Thank you for using the **Time Tracker App**! We hope it helps you manage your time effectively. If you have any questions, feel free to reach out! 😊
