@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/services/LocalStorage.dart';
+import '/models/ProjectVM.dart';
 
 class ProjectManagementPage extends StatefulWidget {
   const ProjectManagementPage({super.key});
@@ -9,7 +10,7 @@ class ProjectManagementPage extends StatefulWidget {
 }
 
 class _ProjectManagementPageState extends State<ProjectManagementPage> {
-  List<String> projects = [];
+  List<Project> projects = [];
 
   @override
   void initState() {
@@ -18,12 +19,12 @@ class _ProjectManagementPageState extends State<ProjectManagementPage> {
   }
 
   Future<void> _loadProjects() async {
-    final data = await LocalStorageService.loadProjects();
-    setState(() => projects = data);
+    projects = await LocalStorageService.loadProjects();
+    setState(() {});
   }
 
   Future<void> _addProject(String name) async {
-    projects.add(name);
+    projects.add(Project(name));
     await LocalStorageService.saveProjects(projects);
     _loadProjects();
   }
@@ -67,7 +68,7 @@ class _ProjectManagementPageState extends State<ProjectManagementPage> {
               itemCount: projects.length,
               itemBuilder: (context, index) {
                 return Dismissible(
-                  key: ValueKey(projects[index]),
+                  key: ValueKey(projects[index].name),
                   direction: DismissDirection.endToStart,
                   background: Container(
                     color: Colors.red,
@@ -76,79 +77,12 @@ class _ProjectManagementPageState extends State<ProjectManagementPage> {
                     child: const Icon(Icons.delete, color: Colors.white),
                   ),
                   onDismissed: (_) => _deleteProject(index),
-                  child: ListTile(title: Text(projects[index])),
+                  child: ListTile(title: Text(projects[index].name)),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddDialog,
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class TaskManagementPage extends StatefulWidget {
-  const TaskManagementPage({super.key});
-
-  @override
-  State<TaskManagementPage> createState() => _TaskManagementPageState();
-}
-
-class _TaskManagementPageState extends State<TaskManagementPage> {
-  List<String> tasks = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTasks();
-  }
-
-  Future<void> _loadTasks() async {
-    final list = await LocalStorageService.loadTasks();
-    setState(() => tasks = list);
-  }
-
-  Future<void> _addTask(String task) async {
-    tasks.add(task);
-    await LocalStorageService.saveTasks(tasks);
-    setState(() {});
-  }
-
-  void _showAddTaskDialog() {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Add Task'),
-        content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(hintText: 'Task name')),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _addTask(controller.text);
-            },
-            child: const Text('Add'),
-          )
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Manage Tasks')),
-      body: tasks.isEmpty
-          ? const Center(child: Text('No tasks added yet.'))
-          : ListView.builder(
-              itemCount: tasks.length,
-              itemBuilder: (_, i) => ListTile(title: Text(tasks[i])),
-            ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showAddTaskDialog,
         child: const Icon(Icons.add),
       ),
     );

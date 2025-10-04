@@ -3,9 +3,7 @@ import '/models/TimeEntryVM.dart';
 import '/widgets/ProjectandTasksTabBar.dart';
 import '/services/LocalStorage.dart';
 import 'ProjectManagementPageView.dart';
-import '/models/ProjectVM.dart';
-import '/services/TimeEntryProvider.dart';
-import '/services/ProjectTaskProvider.dart';
+import '/screens/AddTimeEntryScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

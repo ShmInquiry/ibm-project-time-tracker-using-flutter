@@ -1,75 +1,49 @@
 import 'package:flutter/material.dart';
 import '/models/ProjectVM.dart';
-import '/services/LocalStorage.dart';
-import '/main.dart';
+import '/models/TaskVM.dart';
+import 'LocalStorage.dart';
 
-class ProjectsTab extends StatelessWidget {
-  final Map<String, List<TimeEntry>> groupedEntries;
-  final Function(String, int) onDelete; // project + index
+class ProjectTaskProvider with ChangeNotifier {
+  List<Project> _projects = [];
+  List<Task> _tasks = [];
 
-  const ProjectsTab({
-    required this.groupedEntries,
-    required this.onDelete,
-    super.key,
-  });
+  List<Project> get projects => _projects;
+  List<Task> get tasks => _tasks;
 
-  @override
-  Widget build(BuildContext context) {
-    final projects = groupedEntries.keys.toList();
+  Future<void> loadProjects() async {
+    _projects = await LocalStorageService.loadProjects();
+    notifyListeners();
+  }
 
-    return ListView.builder(
-      itemCount: projects.length,
-      itemBuilder: (context, projIndex) {
-        final project = projects[projIndex];
-        final entries = groupedEntries[project]!;
+  Future<void> addProject(Project project) async {
+    if (_projects.any((p) => p.name == project.name))
+      return; // prevent duplicates
+    _projects.add(project);
+    await LocalStorageService.saveProjects(_projects);
+    notifyListeners();
+  }
 
-        return ExpansionTile(
-          title: Text(project),
-          children: entries.asMap().entries.map((entry) {
-            final idx = entry.key;
-            final data = entry.value;
+  Future<void> deleteProject(Project project) async {
+    _projects.removeWhere((p) => p.name == project.name);
+    await LocalStorageService.saveProjects(_projects);
+    notifyListeners();
+  }
 
-            return Dismissible(
-              key: ValueKey('${project}_$idx'),
-              background: Container(
-                color: lattice80_1_hex,
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: const Icon(Icons.delete, color: Colors.white),
-              ),
-              direction: DismissDirection.endToStart,
-              dismissThresholds: const {
-                DismissDirection.endToStart: 0.35,
-              },
+  Future<void> loadTasks() async {
+    _tasks = await LocalStorageService.loadTasks();
+    notifyListeners();
+  }
 
-              onDismissed: (_) async {
-                final deleted = data;
-                onDelete(project, idx);
+  Future<void> addTask(Task task) async {
+    if (_tasks.any((t) => t.name == task.name)) return; // prevent duplicates
+    _tasks.add(task);
+    await LocalStorageService.saveTasks(_tasks);
+    notifyListeners();
+  }
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Deleted "${deleted.task}"'),
-                    action: SnackBarAction(
-                      label: 'Undo',
-                      onPressed: () async {
-                        final entries =
-                            await LocalStorageService.loadTimeEntries();
-                        entries.add(deleted);
-                        await LocalStorageService.saveTimeEntries(entries);
-                      },
-                    ),
-                  ),
-                );
-              },
-              // Pass project + entry index
-              child: ListTile(
-                title: Text(data.task),
-                subtitle: Text('${data.totalTime} - ${data.notes}'),
-              ),
-            );
-          }).toList(),
-        );
-      },
-    );
+  Future<void> deleteTask(Task task) async {
+    _tasks.removeWhere((t) => t.name == task.name);
+    await LocalStorageService.saveTasks(_tasks);
+    notifyListeners();
   }
 }

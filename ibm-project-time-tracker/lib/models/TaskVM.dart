@@ -1,5 +1,6 @@
 class Task {
   final String name;
+
   Task(this.name);
 
   Map<String, dynamic> toJson() => {'name': name};

@@ -34,7 +34,6 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
   }
 
   Future<void> _saveEntry() async {
-    // Validate form as needed
     final entries = await LocalStorageService.loadTimeEntries();
     entries.add(TimeEntry(
       selectedProject?.name ?? '',
@@ -74,7 +73,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                 value: selectedTask,
                 onChanged: (value) => setState(() => selectedTask = value),
                 items: tasks
-                    .map((p) => DropdownMenuItem(value: p, child: Text(p.name)))
+                    .map((t) => DropdownMenuItem(value: t, child: Text(t.name)))
                     .toList(),
               ),
               TextFormField(

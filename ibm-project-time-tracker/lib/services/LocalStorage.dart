@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '/models/TimeEntryVM.dart';
 import '/models/ProjectVM.dart';
+import '/models/TaskVM.dart';
 
 class LocalStorageService {
   static const _timeEntriesKey = 'time_entries';
@@ -22,23 +23,33 @@ class LocalStorageService {
     return decoded.map((e) => TimeEntry.fromJson(e)).toList();
   }
 
-  static Future<void> saveList(String key, List<String> list) async {
+  // Project
+  static Future<void> saveProjects(List<Project> projects) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(key, list);
+    final jsonList = projects.map((p) => p.toJson()).toList();
+    await prefs.setString(_projectsKey, jsonEncode(jsonList));
   }
 
-  static Future<List<String>> loadList(String key) async {
+  static Future<List<Project>> loadProjects() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(key) ?? [];
+    final data = prefs.getString(_projectsKey);
+    if (data == null) return [];
+    final decoded = jsonDecode(data) as List;
+    return decoded.map((e) => Project.fromJson(e)).toList();
   }
 
-  static Future<List<String>> loadProjects() async => loadList(_projectsKey);
+  // Task
+  static Future<void> saveTasks(List<Task> tasks) async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = tasks.map((t) => t.toJson()).toList();
+    await prefs.setString(_tasksKey, jsonEncode(jsonList));
+  }
 
-  static Future<List<String>> loadTasks() async => loadList(_tasksKey);
-
-  static Future<void> saveProjects(List<String> list) async =>
-      saveList(_projectsKey, list);
-
-  static Future<void> saveTasks(List<String> list) async =>
-      saveList(_tasksKey, list);
+  static Future<List<Task>> loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString(_tasksKey);
+    if (data == null) return [];
+    final decoded = jsonDecode(data) as List;
+    return decoded.map((e) => Task.fromJson(e)).toList();
+  }
 }
