@@ -1,6 +1,6 @@
 # Project Time Tracker App 📊⏰
 
-Welcome to the **Time Tracker App**! This app is designed to help you efficiently manage your time entries, projects, and tasks. Below, you'll find an overview of the features and functionalities included in the application.
+Welcome to the **Project Time Tracker App**! This app is designed to help you efficiently manage your time entries, projects, and tasks. Below, you'll find an overview of the features and functionalities included in the application.
 
 ---
 
@@ -40,4 +40,4 @@ Welcome to the **Time Tracker App**! This app is designed to help you efficientl
 
 ---
 
-Thank you for using the **Time Tracker App**! We hope it helps you manage your time effectively. If you have any questions, feel free to reach out! 😊
+Thank you for using the **Project Time Tracker App**! We hope it helps you manage your time effectively. If you have any questions, feel free to reach out! 😊
